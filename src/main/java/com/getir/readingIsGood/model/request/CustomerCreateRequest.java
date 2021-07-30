@@ -1,11 +1,8 @@
 package com.getir.readingIsGood.model.request;
 
-import com.getir.readingIsGood.domain.Order;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 public class CustomerCreateRequest {
     @NotNull(message = "Customer name is required.")

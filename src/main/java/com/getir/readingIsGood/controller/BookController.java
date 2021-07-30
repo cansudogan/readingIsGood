@@ -18,22 +18,22 @@ public class BookController {
     }
 
     @PostMapping
-    public BookResponse createBook(@Valid @RequestBody BookCreateRequest request){
+    public BookResponse createBook(@Valid @RequestBody BookCreateRequest request) {
         return bookService.createBook(request);
     }
 
     @GetMapping(value = "/{id}")
-    public BookResponse getBook(@PathVariable Long id){
+    public BookResponse getBook(@PathVariable Long id) {
         return bookService.getBook(id);
     }
 
     @PutMapping
-    public BookResponse updateBookStock(@Valid @RequestBody BookStockUpdateRequest request){
+    public BookResponse updateBookStock(@Valid @RequestBody BookStockUpdateRequest request) {
         return bookService.updateBookStock(request);
     }
 
     @DeleteMapping(value = "/{id}")
-    public BookResponse deleteBook(@PathVariable Long id){
+    public BookResponse deleteBook(@PathVariable Long id) {
         return bookService.deleteBook(id);
     }
 }

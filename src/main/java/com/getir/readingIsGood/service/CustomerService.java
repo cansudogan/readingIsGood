@@ -29,7 +29,7 @@ public class CustomerService {
         return response;
     }
 
-    public CustomerResponse getCustomer(Long id){
+    public CustomerResponse getCustomer(Long id) {
         Customer customer = repository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
         CustomerResponse response = new CustomerResponse();
         response.setCustomer(customer);

@@ -41,7 +41,7 @@ public class BookService {
         return response;
     }
 
-    public BookResponse updateBookStock(BookStockUpdateRequest request){
+    public BookResponse updateBookStock(BookStockUpdateRequest request) {
         Book book = bookRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(String.valueOf(request.getId())));
 
         book.setRemainingStock(request.getRemainingStock());

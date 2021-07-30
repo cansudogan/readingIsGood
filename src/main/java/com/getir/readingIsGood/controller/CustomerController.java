@@ -3,7 +3,6 @@ package com.getir.readingIsGood.controller;
 import com.getir.readingIsGood.model.request.CustomerCreateRequest;
 import com.getir.readingIsGood.model.response.CustomerResponse;
 import com.getir.readingIsGood.service.CustomerService;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,12 +17,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerResponse createCustomer(@Valid @RequestBody CustomerCreateRequest request){
+    public CustomerResponse createCustomer(@Valid @RequestBody CustomerCreateRequest request) {
         return customerService.createCustomer(request);
     }
 
     @GetMapping(value = "/{id}")
-    public CustomerResponse getCustomer(@PathVariable Long id){
+    public CustomerResponse getCustomer(@PathVariable Long id) {
         return customerService.getCustomer(id);
     }
 }
