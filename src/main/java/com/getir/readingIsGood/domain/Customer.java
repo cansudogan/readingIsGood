@@ -22,9 +22,6 @@ public class Customer {
     @Email(message = "Invalid email format")
     private String mail;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    private List<Order> orderList;
-
     public Customer() {
     }
 
@@ -35,7 +32,6 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", mail='" + mail + '\'' +
-                ", orderList=" + orderList +
                 '}';
     }
 
@@ -71,11 +67,4 @@ public class Customer {
         this.mail = mail;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
-    }
 }
