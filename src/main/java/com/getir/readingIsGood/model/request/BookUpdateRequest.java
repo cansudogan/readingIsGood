@@ -1,43 +1,33 @@
-package com.getir.readingIsGood.domain;
+package com.getir.readingIsGood.model.request;
 
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Entity
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookId;
+public class BookUpdateRequest {
+    @NotNull(message = "Book id can not be blank")
+    private Long id;
 
-    @NotEmpty(message = "Title is required.")
+    @NotEmpty(message = "Book title is required")
     private String title;
 
     private String description;
 
-    @NotEmpty(message = "Author is required.")
+    @NotEmpty(message = "Book's author is required")
     private String author;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Price can not be less than 0.")
     private BigDecimal price;
 
-    @NotNull(message = "Stock is required.")
+    @NotNull(message = "Stock information is required")
     private Long remainingStock;
-
-    public Book() {
-    }
 
     @Override
     public String toString() {
-        return "Book{" +
-                "bookId=" + bookId +
-                ", title='" + title + '\'' +
+        return "BookUpdateRequest{" +
+                "id=" + id +
+                ", name='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", author='" + author + '\'' +
                 ", price=" + price +
@@ -45,12 +35,12 @@ public class Book {
                 '}';
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
