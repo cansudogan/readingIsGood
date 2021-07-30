@@ -1,7 +1,7 @@
 package com.getir.readingIsGood.controller;
 
 import com.getir.readingIsGood.model.request.BookCreateRequest;
-import com.getir.readingIsGood.model.request.BookUpdateRequest;
+import com.getir.readingIsGood.model.request.BookStockUpdateRequest;
 import com.getir.readingIsGood.model.response.BookResponse;
 import com.getir.readingIsGood.service.BookService;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ public class BookController {
     }
 
     @PutMapping
-    public BookResponse updateBook(@Valid @RequestBody BookUpdateRequest request){
-        return bookService.updateBook(request);
+    public BookResponse updateBookStock(@Valid @RequestBody BookStockUpdateRequest request){
+        return bookService.updateBookStock(request);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -2,7 +2,7 @@ package com.getir.readingIsGood.service;
 
 import com.getir.readingIsGood.domain.Book;
 import com.getir.readingIsGood.model.request.BookCreateRequest;
-import com.getir.readingIsGood.model.request.BookUpdateRequest;
+import com.getir.readingIsGood.model.request.BookStockUpdateRequest;
 import com.getir.readingIsGood.model.response.BookResponse;
 import com.getir.readingIsGood.repository.IBookRepository;
 import org.springframework.stereotype.Service;
@@ -41,13 +41,9 @@ public class BookService {
         return response;
     }
 
-    public BookResponse updateBook(BookUpdateRequest request){
+    public BookResponse updateBookStock(BookStockUpdateRequest request){
         Book book = bookRepository.findById(request.getId()).orElseThrow(() -> new EntityNotFoundException(String.valueOf(request.getId())));
 
-        book.setTitle(request.getTitle());
-        book.setDescription(request.getDescription());
-        book.setAuthor(request.getAuthor());
-        book.setPrice(request.getPrice());
         book.setRemainingStock(request.getRemainingStock());
 
         bookRepository.save(book);
