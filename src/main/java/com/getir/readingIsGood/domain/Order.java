@@ -1,17 +1,22 @@
 package com.getir.readingIsGood.domain;
 
+import com.getir.readingIsGood.model.dto.BookResponseDTO;
+import com.getir.readingIsGood.model.dto.OrderResponseDTO;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
 
     private Long customerId;
 
@@ -21,9 +26,12 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
-    @NotEmpty(message = "Order must have minimum one book")
-    @ManyToMany(cascade = {CascadeType.ALL})
-    private List<Book> bookList;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "orders_books",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> book;
 
     private Long totalBookCount;
 
@@ -33,21 +41,21 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "orderId=" + orderId +
+                "id=" + id +
                 ", customerId=" + customerId +
                 ", totalPrice=" + totalPrice +
                 ", dateCreated=" + dateCreated +
-                ", bookList=" + bookList +
+                ", book=" + book +
                 ", totalBookCount=" + totalBookCount +
                 '}';
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getCustomerId() {
@@ -74,12 +82,12 @@ public class Order {
         this.dateCreated = dateCreated;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public List<Book> getBook() {
+        return book;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBook(List<Book> book) {
+        this.book = book;
     }
 
     public Long getTotalBookCount() {
@@ -88,5 +96,18 @@ public class Order {
 
     public void setTotalBookCount(Long totalBookCount) {
         this.totalBookCount = totalBookCount;
+    }
+
+    public OrderResponseDTO responseDTO(Order order) {
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponseDTO.setDateCreated(order.getDateCreated());
+        orderResponseDTO.setTotalPrice(order.getTotalPrice());
+
+        List<BookResponseDTO> bookResponseDTOs = new ArrayList<BookResponseDTO>();
+        order.getBook().forEach(book -> bookResponseDTOs.add(book.responseDTO(book)));
+
+        orderResponseDTO.setBookList(bookResponseDTOs);
+
+        return orderResponseDTO;
     }
 }
