@@ -1,19 +1,20 @@
 package com.getir.readingIsGood.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+    private Long id;
 
     @NotEmpty(message = "Name can not be empty.")
     private String name;
@@ -24,25 +25,29 @@ public class Customer {
     @Email(message = "Invalid email format")
     private String mail;
 
+    @OneToMany(cascade = {CascadeType.ALL})
+    private List<Order> orderList = new ArrayList<Order>();
+
     public Customer() {
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "customerId=" + customerId +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", mail='" + mail + '\'' +
+                ", orderList=" + orderList +
                 '}';
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -69,4 +74,20 @@ public class Customer {
         this.mail = mail;
     }
 
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public CustomerResponseDTO responseDTO(Customer customer) {
+        CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
+        customerResponseDTO.setName(customer.getName());
+        customerResponseDTO.setSurname(customer.getSurname());
+        customerResponseDTO.setEmail(customer.getMail());
+
+        return customerResponseDTO;
+    }
 }
