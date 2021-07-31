@@ -1,20 +1,20 @@
 package com.getir.readingIsGood.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.getir.readingIsGood.model.dto.BookResponseDTO;
+
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookId;
+    private Long id;
 
     @NotEmpty(message = "Title is required.")
     private String title;
@@ -36,7 +36,7 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "bookId=" + bookId +
+                "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", author='" + author + '\'' +
@@ -45,12 +45,12 @@ public class Book {
                 '}';
     }
 
-    public Long getBookId() {
-        return bookId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -91,5 +91,14 @@ public class Book {
 
     public void setRemainingStock(Long remainingStock) {
         this.remainingStock = remainingStock;
+    }
+
+    public BookResponseDTO responseDTO(Book book) {
+        BookResponseDTO bookResponseDTO = new BookResponseDTO();
+        bookResponseDTO.setTitle(book.getTitle());
+        bookResponseDTO.setAuthor(book.getAuthor());
+        bookResponseDTO.setPrice(book.getPrice());
+
+        return bookResponseDTO;
     }
 }
