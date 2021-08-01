@@ -20,6 +20,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private int version;
+
     private Long userId;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Price can not be less than 0.")
@@ -98,6 +101,14 @@ public class Order {
 
     public void setTotalBookCount(Long totalBookCount) {
         this.totalBookCount = totalBookCount;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public OrderDTO orderDTO(Order order) {

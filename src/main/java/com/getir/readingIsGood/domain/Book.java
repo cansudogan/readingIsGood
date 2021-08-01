@@ -17,6 +17,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private int version;
+
     @NotEmpty(message = "Title is required.")
     private String title;
 
@@ -92,6 +95,14 @@ public class Book {
 
     public void setRemainingStock(Long remainingStock) {
         this.remainingStock = remainingStock;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public BookDTO bookDTO(Book book) {
