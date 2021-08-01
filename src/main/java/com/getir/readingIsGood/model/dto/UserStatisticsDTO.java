@@ -3,7 +3,7 @@ package com.getir.readingIsGood.model.dto;
 import java.math.BigDecimal;
 import java.time.Month;
 
-public class CustomerStatisticsDTO {
+public class UserStatisticsDTO {
     private Month month;
     private int totalOrderCount;
     private int totalBookCount;
@@ -11,7 +11,7 @@ public class CustomerStatisticsDTO {
 
     @Override
     public String toString() {
-        return "CustomerStatisticsDTO{" +
+        return "UserStatisticsDTO{" +
                 "month=" + month +
                 ", totalOrderCount=" + totalOrderCount +
                 ", totalBookCount=" + totalBookCount +

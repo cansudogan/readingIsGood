@@ -2,18 +2,12 @@ package com.getir.readingIsGood.model.response;
 
 import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
 import com.getir.readingIsGood.model.dto.OrderResponseDTO;
+import com.getir.readingIsGood.model.dto.UserResponseDTO;
 
 public class OrderResponse {
     private OrderResponseDTO order;
-    private CustomerResponseDTO customer;
+    private UserResponseDTO user;
 
-    @Override
-    public String toString() {
-        return "OrderResponse{" +
-                "order=" + order +
-                ", customer=" + customer +
-                '}';
-    }
 
     public OrderResponseDTO getOrder() {
         return order;
@@ -23,11 +17,11 @@ public class OrderResponse {
         this.order = order;
     }
 
-    public CustomerResponseDTO getCustomer() {
-        return customer;
+    public UserResponseDTO getUser() {
+        return user;
     }
 
-    public void setCustomer(CustomerResponseDTO customer) {
-        this.customer = customer;
+    public void setUser(UserResponseDTO user) {
+        this.user = user;
     }
 }

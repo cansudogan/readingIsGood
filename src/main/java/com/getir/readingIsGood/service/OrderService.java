@@ -1,8 +1,8 @@
 package com.getir.readingIsGood.service;
 
 import com.getir.readingIsGood.domain.Book;
-import com.getir.readingIsGood.domain.Customer;
 import com.getir.readingIsGood.domain.Order;
+import com.getir.readingIsGood.domain.User;
 import com.getir.readingIsGood.model.dto.BookDetailDTO;
 import com.getir.readingIsGood.model.dto.OrderDTO;
 import com.getir.readingIsGood.model.dto.OrderResponseDTO;
@@ -11,8 +11,8 @@ import com.getir.readingIsGood.model.request.OrderCreateRequest;
 import com.getir.readingIsGood.model.response.OrderListResponse;
 import com.getir.readingIsGood.model.response.OrderResponse;
 import com.getir.readingIsGood.repository.IBookRepository;
-import com.getir.readingIsGood.repository.ICustomerRepository;
 import com.getir.readingIsGood.repository.IOrderRepository;
+import com.getir.readingIsGood.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,38 +28,37 @@ import java.util.List;
 public class OrderService {
     private final Logger log = LoggerFactory.getLogger(OrderService.class);
 
-    private final ICustomerRepository customerRepository;
     private final IBookRepository bookRepository;
     private final IOrderRepository orderRepository;
+    private final IUserRepository userRepository;
 
-    public OrderService(ICustomerRepository customerRepository, IBookRepository bookRepository, IOrderRepository orderRepository) {
-        this.customerRepository = customerRepository;
+    public OrderService(IBookRepository bookRepository, IOrderRepository orderRepository, IUserRepository userRepository) {
         this.bookRepository = bookRepository;
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
     }
 
-    public OrderResponse createOrder(OrderCreateRequest request) {
+    public OrderResponse createOrder(OrderCreateRequest request, Long userId) {
         log.debug("OrderService - createOrder started");
-        Customer customer = customerRepository.getById(request.getCustomerId());
 
-        List<Long> bookIDs = new ArrayList<Long>();
+        List<Long> bookIDs = new ArrayList<>();
         request.getBookOrders().forEach(bookDetailDTO -> bookIDs.add(bookDetailDTO.getBookId()));
         List<Book> books = bookRepository.findAllById(bookIDs);
 
         Order order = new Order();
-        order.setCustomerId(request.getCustomerId());
+        order.setUserId(userId);
         order.setBook(books);
         order.setDateCreated(new Date());
         order.setTotalBookCount(calculateTotalBookCount(request));
         order.setTotalPrice(calculateTotalPrice(request, books));
-        customer.getOrderList().add(order);
 
-        customerRepository.save(customer);
         updateBookStock(request, books);
 
+        orderRepository.save(order);
+        User user = userRepository.getById(userId);
         OrderResponse orderResponse = new OrderResponse();
         orderResponse.setOrder(order.responseDTO(order));
-        orderResponse.setCustomer(customer.responseDTO(customer));
+        orderResponse.setUser(user.responseDTO(user));
 
         log.debug("OrderService - createOrder - order created");
         return orderResponse;
@@ -85,7 +84,7 @@ public class OrderService {
         for (BookDetailDTO dto : request.getBookOrders()) {
             Book book = books.stream().filter(b -> b.getId().equals(dto.getBookId())).findAny().orElse(null);
             if (book != null) {
-                if (book.getRemainingStock() > dto.getBookCount()) {
+                if (book.getRemainingStock() >= dto.getBookCount()) {
                     book.setRemainingStock(book.getRemainingStock() - dto.getBookCount());
                     bookRepository.save(book);
                     log.debug("OrderService - updateBookStock - bookStockInformation updated");
@@ -108,24 +107,22 @@ public class OrderService {
         return totalBookCount;
     }
 
-    public OrderResponse getOrderById(Long id) {
-        Customer customer = customerRepository.getCustomerByOrderListId(id);
-
+    public OrderResponse getOrderById(Long userId, Long orderId) {
         OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setCustomer(customer.responseDTO(customer));
+        User user = userRepository.getById(userId);
 
-        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponse.setUser(user.responseDTO(user));
 
-        Order order = customer.getOrderList().stream().filter(o -> o.getId().equals(id)).findFirst().orElse(null);
+        OrderResponseDTO orderResponseDTO;
+        Order order = orderRepository.getByIdAndUserId(orderId, userId);
 
         if (order != null) {
             orderResponseDTO = order.responseDTO(order);
         } else {
             throw new EntityNotFoundException("No order found for customer");
         }
-
         orderResponse.setOrder(orderResponseDTO);
-        log.debug("Order response is ready for customer {}, response {}", customer.responseDTO(customer), orderResponse);
+        //log.debug("Order response is ready for customer {}, response {}", customer.responseDTO(customer), orderResponse);
         return orderResponse;
     }
 

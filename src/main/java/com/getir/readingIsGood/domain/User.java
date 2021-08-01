@@ -1,6 +1,9 @@
 package com.getir.readingIsGood.domain;
 
 
+import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
+import com.getir.readingIsGood.model.dto.UserResponseDTO;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -85,5 +88,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public UserResponseDTO responseDTO(User user) {
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setUsername(user.getUsername());
+        userResponseDTO.setMail(user.getEmail());
+
+        return userResponseDTO;
     }
 }

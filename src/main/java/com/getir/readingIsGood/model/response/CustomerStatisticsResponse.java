@@ -1,17 +1,17 @@
 package com.getir.readingIsGood.model.response;
 
-import com.getir.readingIsGood.model.dto.CustomerStatisticsDTO;
+import com.getir.readingIsGood.model.dto.UserStatisticsDTO;
 
 import java.util.List;
 
 public class CustomerStatisticsResponse {
-    List<CustomerStatisticsDTO> customerStatistics;
+    List<UserStatisticsDTO> customerStatistics;
 
-    public List<CustomerStatisticsDTO> getCustomerStatistics() {
+    public List<UserStatisticsDTO> getCustomerStatistics() {
         return customerStatistics;
     }
 
-    public void setCustomerStatistics(List<CustomerStatisticsDTO> customerStatistics) {
+    public void setCustomerStatistics(List<UserStatisticsDTO> customerStatistics) {
         this.customerStatistics = customerStatistics;
     }
 

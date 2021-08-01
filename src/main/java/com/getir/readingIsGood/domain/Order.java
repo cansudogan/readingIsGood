@@ -20,7 +20,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long customerId;
+    private Long userId;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Price can not be less than 0.")
     private BigDecimal totalPrice;
@@ -44,7 +44,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", customerId=" + customerId +
+                ", userId=" + userId +
                 ", totalPrice=" + totalPrice +
                 ", dateCreated=" + dateCreated +
                 ", book=" + book +
@@ -60,12 +60,12 @@ public class Order {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getTotalPrice() {
@@ -105,7 +105,7 @@ public class Order {
         dto.setId(order.getId());
         dto.setTotalPrice(order.getTotalPrice());
         dto.setDateCreated(order.getDateCreated());
-        dto.setCustomerId(order.getCustomerId());
+        dto.setCustomerId(order.getUserId());
         dto.setTotalBookCount(order.getTotalBookCount());
 
         List<BookDTO> bookDTOS = new ArrayList<>();

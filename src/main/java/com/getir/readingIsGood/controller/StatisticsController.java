@@ -2,13 +2,15 @@ package com.getir.readingIsGood.controller;
 
 import com.getir.readingIsGood.model.response.CustomerStatisticsResponse;
 import com.getir.readingIsGood.service.StatisticsService;
+import com.getir.readingIsGood.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/statistics")
+@RequestMapping(value = "/api/statistics")
 public class StatisticsController {
     private static final Logger log = LoggerFactory.getLogger(StatisticsController.class);
 
@@ -18,10 +20,12 @@ public class StatisticsController {
         this.statisticsService = statisticsService;
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public CustomerStatisticsResponse getCustomerStatistics(@PathVariable Long id) {
-        log.debug("Get customer statistics by customer id {}", id);
-        return statisticsService.getCustomerStatistics(id);
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public CustomerStatisticsResponse getCustomerStatistics() {
+        Long userId = Util.getUserId();
+        log.debug("Get customer statistics by user id {}", userId);
+        return statisticsService.getCustomerStatistics(userId);
     }
 }
