@@ -1,9 +1,10 @@
 package com.getir.readingIsGood.model.response;
 
 import com.getir.readingIsGood.domain.Customer;
+import com.getir.readingIsGood.model.dto.CustomerDTO;
 
 public class CustomerResponse {
-    private Customer customer;
+    private CustomerDTO customer;
 
     @Override
     public String toString() {
@@ -12,11 +13,11 @@ public class CustomerResponse {
                 '}';
     }
 
-    public Customer getCustomer() {
+    public CustomerDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
 }

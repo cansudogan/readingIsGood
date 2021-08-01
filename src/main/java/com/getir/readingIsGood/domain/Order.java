@@ -1,6 +1,8 @@
 package com.getir.readingIsGood.domain;
 
+import com.getir.readingIsGood.model.dto.BookDTO;
 import com.getir.readingIsGood.model.dto.BookResponseDTO;
+import com.getir.readingIsGood.model.dto.OrderDTO;
 import com.getir.readingIsGood.model.dto.OrderResponseDTO;
 
 import javax.persistence.*;
@@ -96,6 +98,22 @@ public class Order {
 
     public void setTotalBookCount(Long totalBookCount) {
         this.totalBookCount = totalBookCount;
+    }
+
+    public OrderDTO orderDTO(Order order) {
+        OrderDTO dto = new OrderDTO();
+        dto.setId(order.getId());
+        dto.setTotalPrice(order.getTotalPrice());
+        dto.setDateCreated(order.getDateCreated());
+        dto.setCustomerId(order.getCustomerId());
+        dto.setTotalBookCount(order.getTotalBookCount());
+
+        List<BookDTO> bookDTOS = new ArrayList<>();
+        order.getBook().forEach(book -> bookDTOS.add(book.bookDTO(book)));
+
+        dto.setBookList(bookDTOS);
+
+        return dto;
     }
 
     public OrderResponseDTO responseDTO(Order order) {

@@ -4,7 +4,11 @@ import com.getir.readingIsGood.domain.Book;
 import com.getir.readingIsGood.domain.Customer;
 import com.getir.readingIsGood.domain.Order;
 import com.getir.readingIsGood.model.dto.BookDetailDTO;
+import com.getir.readingIsGood.model.dto.OrderDTO;
+import com.getir.readingIsGood.model.dto.OrderResponseDTO;
+import com.getir.readingIsGood.model.request.OrderByDateRequest;
 import com.getir.readingIsGood.model.request.OrderCreateRequest;
+import com.getir.readingIsGood.model.response.OrderListResponse;
 import com.getir.readingIsGood.model.response.OrderResponse;
 import com.getir.readingIsGood.repository.IBookRepository;
 import com.getir.readingIsGood.repository.ICustomerRepository;
@@ -14,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,5 +106,39 @@ public class OrderService {
         }
         log.debug("OrderService - calculateTotalBookCount - totalBookCount calculated");
         return totalBookCount;
+    }
+
+    public OrderResponse getOrderById(Long id) {
+        Customer customer = customerRepository.getCustomerByOrderListId(id);
+
+        OrderResponse orderResponse = new OrderResponse();
+        orderResponse.setCustomer(customer.responseDTO(customer));
+
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+
+        Order order = customer.getOrderList().stream().filter(o -> o.getId().equals(id)).findFirst().orElse(null);
+
+        if (order != null) {
+            orderResponseDTO = order.responseDTO(order);
+        } else {
+            throw new EntityNotFoundException("No order found for customer");
+        }
+
+        orderResponse.setOrder(orderResponseDTO);
+        log.debug("Order response is ready for customer {}, response {}", customer.responseDTO(customer), orderResponse);
+        return orderResponse;
+    }
+
+    public OrderListResponse getOrderByDateInterval(OrderByDateRequest request) {
+        List<Order> orderList = orderRepository.getAllByDateCreatedBetween(request.getStartDate(), request.getEndDate());
+        List<OrderDTO> orderDTOs = new ArrayList<>();
+
+        orderList.forEach(order -> orderDTOs.add(order.orderDTO(order)));
+        log.debug("Get orders successfully for dates between [{}-{}]", request.getStartDate(), request.getEndDate());
+
+        OrderListResponse response = new OrderListResponse();
+        response.setOrders(orderDTOs);
+
+        return response;
     }
 }

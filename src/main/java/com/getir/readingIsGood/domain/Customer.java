@@ -1,13 +1,16 @@
 package com.getir.readingIsGood.domain;
 
 
+import com.getir.readingIsGood.model.dto.CustomerDTO;
 import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
+import com.getir.readingIsGood.model.dto.OrderDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -80,6 +83,23 @@ public class Customer {
 
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
+    }
+
+    public CustomerDTO customerDTO(Customer customer) {
+        CustomerDTO dto = new CustomerDTO();
+        dto.setId(getId());
+        dto.setName(getName());
+        dto.setSurname(getSurname());
+        dto.setMail(getMail());
+
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        if (Objects.nonNull(getOrderList())) {
+            getOrderList().forEach(order -> orderDTOS.add(order.orderDTO(order)));
+        }
+
+        dto.setOrderList(orderDTOS);
+
+        return dto;
     }
 
     public CustomerResponseDTO responseDTO(Customer customer) {

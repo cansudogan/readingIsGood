@@ -1,6 +1,7 @@
 package com.getir.readingIsGood.domain;
 
 
+import com.getir.readingIsGood.model.dto.BookDTO;
 import com.getir.readingIsGood.model.dto.BookResponseDTO;
 
 import javax.persistence.*;
@@ -91,6 +92,18 @@ public class Book {
 
     public void setRemainingStock(Long remainingStock) {
         this.remainingStock = remainingStock;
+    }
+
+    public BookDTO bookDTO(Book book) {
+        BookDTO dto = new BookDTO();
+        dto.setId(getId());
+        dto.setTitle(getTitle());
+        dto.setAuthor(getAuthor());
+        dto.setDescription(getDescription());
+        dto.setPrice(getPrice().doubleValue());
+        dto.setRemainingStock(getRemainingStock());
+
+        return dto;
     }
 
     public BookResponseDTO responseDTO(Book book) {

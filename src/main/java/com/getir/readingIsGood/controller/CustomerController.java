@@ -3,6 +3,7 @@ package com.getir.readingIsGood.controller;
 import com.getir.readingIsGood.model.request.CustomerCreateRequest;
 import com.getir.readingIsGood.model.response.CustomerResponse;
 import com.getir.readingIsGood.service.CustomerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,8 +23,9 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public CustomerResponse getCustomer(@PathVariable Long id) {
-        return customerService.getCustomer(id);
+       return customerService.getCustomer(id);
     }
 
 }
