@@ -1,5 +1,6 @@
 package com.getir.readingIsGood.model.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class BookDetailDTO {
@@ -7,6 +8,7 @@ public class BookDetailDTO {
     private Long bookId;
 
     @NotNull(message = "Book id count required")
+    @Min(value=1, message = "Book count must greater than zero")
     private Long bookCount;
 
     @Override

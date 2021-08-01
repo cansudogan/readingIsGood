@@ -3,9 +3,7 @@ package com.getir.readingIsGood.model.request;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class CustomerRequest {
-    @NotNull(message = "Id is required")
-    private Long id;
+public class CustomerPageRequest {
 
     @NotNull(message = "Page is required")
     @Min(value = 0)
@@ -17,20 +15,12 @@ public class CustomerRequest {
 
     @Override
     public String toString() {
-        return "CustomerRequest{" +
-                "id=" + id +
+        return "CustomerPageRequest{" +
                 ", page=" + page +
                 ", size=" + size +
                 '}';
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getPage() {
         return page;

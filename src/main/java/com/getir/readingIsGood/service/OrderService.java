@@ -6,8 +6,10 @@ import com.getir.readingIsGood.domain.User;
 import com.getir.readingIsGood.model.dto.BookDetailDTO;
 import com.getir.readingIsGood.model.dto.OrderDTO;
 import com.getir.readingIsGood.model.dto.OrderResponseDTO;
+import com.getir.readingIsGood.model.request.CustomerPageRequest;
 import com.getir.readingIsGood.model.request.OrderByDateRequest;
 import com.getir.readingIsGood.model.request.OrderCreateRequest;
+import com.getir.readingIsGood.model.response.CustomerPageResponse;
 import com.getir.readingIsGood.model.response.OrderListResponse;
 import com.getir.readingIsGood.model.response.OrderResponse;
 import com.getir.readingIsGood.repository.IBookRepository;
@@ -15,12 +17,16 @@ import com.getir.readingIsGood.repository.IOrderRepository;
 import com.getir.readingIsGood.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +50,12 @@ public class OrderService {
         List<Long> bookIDs = new ArrayList<>();
         request.getBookOrders().forEach(bookDetailDTO -> bookIDs.add(bookDetailDTO.getBookId()));
         List<Book> books = bookRepository.findAllById(bookIDs);
+
+        for (BookDetailDTO dto : request.getBookOrders()) {
+            if(dto.getBookCount() < 1){
+                throw new RuntimeException();
+            }
+        }
 
         Order order = new Order();
         order.setUserId(userId);
@@ -126,8 +138,8 @@ public class OrderService {
         return orderResponse;
     }
 
-    public OrderListResponse getOrderByDateInterval(OrderByDateRequest request) {
-        List<Order> orderList = orderRepository.getAllByDateCreatedBetween(request.getStartDate(), request.getEndDate());
+    public OrderListResponse getOrderByDateInterval(Long userId, OrderByDateRequest request) {
+        List<Order> orderList = orderRepository.getAllByUserIdAndDateCreatedBetween(userId, request.getStartDate(), request.getEndDate());
         List<OrderDTO> orderDTOs = new ArrayList<>();
 
         orderList.forEach(order -> orderDTOs.add(order.orderDTO(order)));
@@ -137,5 +149,25 @@ public class OrderService {
         response.setOrders(orderDTOs);
 
         return response;
+    }
+
+    public CustomerPageResponse getAllOrders(CustomerPageRequest request, Long userId) {
+        CustomerPageResponse customerPageResponse = new CustomerPageResponse();
+
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        List<Order> orderList = orderRepository.findAllByUserId(userId,pageable);
+
+        if (orderList.isEmpty()) {
+            customerPageResponse.setOrderDTO(new PageImpl<>(Collections.emptyList()));
+            return customerPageResponse;
+        }
+
+        List<OrderDTO> dtoList = new ArrayList<>();
+
+        orderList.forEach(order -> dtoList.add(order.orderDTO(order)));
+        customerPageResponse.setOrderDTO(new PageImpl<>(dtoList, PageRequest.of(request.getPage(), request.getSize()), orderRepository.count()));
+        log.debug("CustomerService - getCustomerOrders is finished {}", customerPageResponse);
+        return customerPageResponse;
+
     }
 }

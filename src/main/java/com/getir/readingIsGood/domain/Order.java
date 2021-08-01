@@ -116,7 +116,7 @@ public class Order {
         dto.setId(order.getId());
         dto.setTotalPrice(order.getTotalPrice());
         dto.setDateCreated(order.getDateCreated());
-        dto.setCustomerId(order.getUserId());
+        dto.setUserId(order.getUserId());
         dto.setTotalBookCount(order.getTotalBookCount());
 
         List<BookDTO> bookDTOS = new ArrayList<>();

@@ -6,23 +6,11 @@ import java.util.List;
 
 public class OrderDTO {
     private Long id;
-    private Long customerId;
+    private Long userId;
     private BigDecimal totalPrice;
     private Date dateCreated;
     private List<BookDTO> bookList;
     private Long totalBookCount;
-
-    @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "id=" + id +
-                ", customerId=" + customerId +
-                ", totalPrice=" + totalPrice +
-                ", dateCreated=" + dateCreated +
-                ", bookList=" + bookList +
-                ", totalBookCount=" + totalBookCount +
-                '}';
-    }
 
     public Long getId() {
         return id;
@@ -32,12 +20,12 @@ public class OrderDTO {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getTotalPrice() {
