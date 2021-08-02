@@ -24,7 +24,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("getir-api")
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.getir"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
