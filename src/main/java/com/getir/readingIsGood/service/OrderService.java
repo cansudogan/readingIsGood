@@ -17,8 +17,8 @@ import com.getir.readingIsGood.repository.IOrderRepository;
 import com.getir.readingIsGood.repository.IUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +52,7 @@ public class OrderService {
         List<Book> books = bookRepository.findAllById(bookIDs);
 
         for (BookDetailDTO dto : request.getBookOrders()) {
-            if(dto.getBookCount() < 1){
+            if (dto.getBookCount() < 1) {
                 throw new RuntimeException();
             }
         }
@@ -155,7 +155,7 @@ public class OrderService {
         CustomerPageResponse customerPageResponse = new CustomerPageResponse();
 
         Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
-        List<Order> orderList = orderRepository.findAllByUserId(userId,pageable);
+        List<Order> orderList = orderRepository.findAllByUserId(userId, pageable);
 
         if (orderList.isEmpty()) {
             customerPageResponse.setOrderDTO(new PageImpl<>(Collections.emptyList()));

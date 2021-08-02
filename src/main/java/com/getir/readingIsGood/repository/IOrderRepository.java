@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IOrderRepository extends JpaRepository<Order, Long> {
-    List<Order> getAllByUserIdAndDateCreatedBetween(Long userId,Date startDate, Date endDate);
+    List<Order> getAllByUserIdAndDateCreatedBetween(Long userId, Date startDate, Date endDate);
 
     Order getByIdAndUserId(Long orderId, Long userId);
 

@@ -8,26 +8,18 @@ import java.util.List;
 
 
 public class OrderCreateRequest {
-    @NotNull(message = "Customer id is required")
-    private Long customerId;
+    @NotNull(message = "User id is required")
+    private Long userId;
 
     @NotEmpty(message = "Order list can not be empty")
     private List<BookDetailDTO> bookOrders;
 
-    @Override
-    public String toString() {
-        return "OrderCreateRequest{" +
-                "customerId=" + customerId +
-                ", bookOrders=" + bookOrders +
-                '}';
+    public Long getUserId() {
+        return userId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public List<BookDetailDTO> getBookOrders() {

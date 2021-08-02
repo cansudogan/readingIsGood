@@ -1,7 +1,6 @@
 package com.getir.readingIsGood.domain;
 
 
-import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
 import com.getir.readingIsGood.model.dto.UserResponseDTO;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(	name = "users",
+@Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -36,7 +35,7 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();

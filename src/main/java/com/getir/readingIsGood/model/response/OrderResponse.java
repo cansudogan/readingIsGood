@@ -1,6 +1,5 @@
 package com.getir.readingIsGood.model.response;
 
-import com.getir.readingIsGood.model.dto.CustomerResponseDTO;
 import com.getir.readingIsGood.model.dto.OrderResponseDTO;
 import com.getir.readingIsGood.model.dto.UserResponseDTO;
 

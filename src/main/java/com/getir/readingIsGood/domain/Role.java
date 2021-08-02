@@ -1,4 +1,5 @@
 package com.getir.readingIsGood.domain;
+
 import com.getir.readingIsGood.model.enums.ERole;
 
 import javax.persistence.*;
