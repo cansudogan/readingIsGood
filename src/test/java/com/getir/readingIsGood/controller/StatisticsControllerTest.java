@@ -31,7 +31,7 @@ public class StatisticsControllerTest {
 
     @Test
     public void testGetCustomerStatistics() throws Exception {
-        mockMvc.perform( MockMvcRequestBuilders
+        mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/statistics/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON));
 

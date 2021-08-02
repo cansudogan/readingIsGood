@@ -24,21 +24,22 @@ public class InitialDataConfiguration {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
+
     @PostConstruct
     public void init() {
 
-        if (roleRepository.findByName(ERole.ROLE_CUSTOMER).isEmpty()){
+        if (roleRepository.findByName(ERole.ROLE_CUSTOMER).isEmpty()) {
             Role custRole = new Role();
             custRole.setName(ERole.ROLE_CUSTOMER);
             roleRepository.save(custRole);
         }
 
-        if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()){
+        if (roleRepository.findByName(ERole.ROLE_ADMIN).isEmpty()) {
             Role admRole = new Role();
             admRole.setName(ERole.ROLE_ADMIN);
             roleRepository.save(admRole);
         }
-        if(!userRepository.existsByUsername("admin")){
+        if (!userRepository.existsByUsername("admin")) {
             User adminUser = new User("admin",
                     "admin@getir.com",
                     passwordEncoder.encode("123456"));
@@ -49,7 +50,7 @@ public class InitialDataConfiguration {
             userRepository.save(adminUser);
         }
 
-        if(!userRepository.existsByUsername("customer")){
+        if (!userRepository.existsByUsername("customer")) {
             User customerUser = new User("customer",
                     "customer@getir.com",
                     passwordEncoder.encode("123456"));

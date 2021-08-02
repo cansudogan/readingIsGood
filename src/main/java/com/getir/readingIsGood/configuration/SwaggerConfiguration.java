@@ -40,6 +40,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 new Contact("Cansu Doğan", "https://github.com/cansudogan", "cansudogan95@gmail.com"),
                 null, null, Collections.emptyList());
     }
+
     private ApiKey apiKey() {
         return new ApiKey("jwtToken", "Authorization", "header");
     }
