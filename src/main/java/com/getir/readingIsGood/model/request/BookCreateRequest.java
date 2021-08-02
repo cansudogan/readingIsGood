@@ -1,6 +1,7 @@
 package com.getir.readingIsGood.model.request;
 
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -14,10 +15,11 @@ public class BookCreateRequest {
     @NotEmpty(message = "Book's author is required")
     private String author;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Price can not be less than 0.")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price can not be less than zero.")
     private BigDecimal price;
 
     @NotNull(message = "Stock can not be null.")
+    @Min(value = 1, message = "RemainingStock can not be less than zero.")
     private Long remainingStock;
 
     @Override
