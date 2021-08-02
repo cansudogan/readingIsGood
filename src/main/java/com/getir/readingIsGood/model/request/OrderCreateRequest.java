@@ -8,19 +8,8 @@ import java.util.List;
 
 
 public class OrderCreateRequest {
-    @NotNull(message = "User id is required")
-    private Long userId;
-
     @NotEmpty(message = "Order list can not be empty")
     private List<BookDetailDTO> bookOrders;
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public List<BookDetailDTO> getBookOrders() {
         return bookOrders;

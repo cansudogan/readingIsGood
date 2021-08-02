@@ -65,10 +65,9 @@ public class OrderServiceTest {
         dto.setBookId(1L);
 
         OrderCreateRequest request = new OrderCreateRequest();
-        request.setUserId(1L);
         request.setBookOrders(orders);
 
-        orderService.createOrder(request, request.getUserId());
+        orderService.createOrder(request, 1L);
 
     }
 
