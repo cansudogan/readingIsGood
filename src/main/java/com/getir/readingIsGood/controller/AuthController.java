@@ -11,6 +11,10 @@ import com.getir.readingIsGood.repository.IRoleRepository;
 import com.getir.readingIsGood.repository.IUserRepository;
 import com.getir.readingIsGood.security.UserDetailsImpl;
 import com.getir.readingIsGood.security.jwt.JwtUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.annotations.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +33,10 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@Api
+@SwaggerDefinition(tags = {
+        @Tag(name = "Authorization-api", description = "Authorization Api")
+})
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -50,6 +58,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
+    @ApiOperation(value = "Sign-in User", notes = "Sign-in User")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -71,6 +80,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @ApiOperation(value = "Sign-up User", notes = "Sign-up User")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
@@ -115,6 +125,4 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
-
 }

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+@RunWith(MockitoJUnitRunner.class)
 public class StatisticsControllerTest {
     private MockMvc mockMvc;
 
@@ -33,6 +34,7 @@ public class StatisticsControllerTest {
         mockMvc.perform( MockMvcRequestBuilders
                 .get("/api/statistics/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON));
+
     }
 
 }
